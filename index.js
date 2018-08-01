@@ -9,8 +9,7 @@ class App extends React.Component {
       neutraali : 0,
       huono :0 
     }
-  } 
-  
+  }
   
   sum = (args) => {
     let t = 0;
@@ -49,11 +48,9 @@ class App extends React.Component {
       </button>
     )
 
-    const Statistic = ({text}) => {
+    const Statistic = ({text1, text2}) => {
       return(
-        <div>
-          {text}<br />
-        </div>
+        <tr><td>{text1}</td><td>{text2}</td></tr>
       )
     } 
 
@@ -70,16 +67,23 @@ class App extends React.Component {
         return(
           <div>
             <h1>Statistiikka</h1>
+            <table><tbody>
             <Statistic 
-              text={ "Hyvä " + this.state.hyva}/>
+              text1={ "Hyvä" }
+              text2={ this.state.hyva}/>
             <Statistic 
-              text={ "Neutraali " + this.state.neutraali}/>
+              text1={ "Neutraali"}
+              text2={ this.state.neutraali}/>
             <Statistic 
-              text={ "Huono " + this.state.huono}/>
+              text1={ "Huono"}
+              text2={ this.state.huono}/>
             <Statistic 
-              text={ "Keskiarvo " + this.avr(this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1)}/>
+              text1={ "Keskiarvo"}
+              text2={ this.avr(this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1)}/>
             <Statistic 
-              text={ "Positiivisia " + this.pos( this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1) + " %"}/>
+              text1={ "Positiivisia"}
+              text2={ this.pos( this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1) + " %"}/>
+            </tbody></table>
           </div>
         )
       }
