@@ -5,9 +5,11 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: Math.floor( Math.random() * 6 )
+      selected: Math.floor( Math.random() * 6 ),
+      votes: [0,0,0,0,0,0]
     }
   }
+
 
   asetaArvo = (kentta) => {
     const r = Math.floor( Math.random() * 6 );
@@ -15,7 +17,16 @@ class App extends React.Component {
       this.setState({ selected: r })
     }
   }
-    render() {
+
+  vote = (selected) => {
+    const kopio = {...this.state.votes}
+    kopio[selected] += 1;  
+    return () => {
+      this.setState({ votes: kopio })
+    }
+  }
+
+  render() {
     const Button = ({ handleClick, text }) => (
       <button onClick={handleClick}>
         {text}
@@ -24,6 +35,11 @@ class App extends React.Component {
       return (
       <div>
         {this.props.anecdotes[this.state.selected]}<br />
+        has {this.state.votes[this.state.selected]} votes<br />
+        <Button
+          handleClick={this.vote(this.state.selected)}
+          text="Vote"
+        />
         <Button
           handleClick={this.asetaArvo()}
           text="Next anecdote"
