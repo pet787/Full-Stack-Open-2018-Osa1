@@ -19,6 +19,14 @@ class App extends React.Component {
     return t;
   }
 
+  zero = (...args) => {
+    let r = true;
+    for (var i of args ) {
+      r = r && ( i === 0);
+    }
+    return r;
+  }
+
   avr = (...args) => {
     return ( args[0] - args[2] ) / args.length;
   }
@@ -49,6 +57,15 @@ class App extends React.Component {
     } 
 
     const Statistics  = () => {
+        if ( this.zero(this.state.hyva,this.state.neutraali,this.state.huono) ) {
+          return (         
+            <div>
+              <h1>Statistiikka</h1>
+              <h2>Ei yhtään palautetta annettu</h2>
+            </div>
+            )
+        }
+        else {
         return(
           <div>
             <h1>Statistiikka</h1>
@@ -63,7 +80,8 @@ class App extends React.Component {
             <Statistic 
               text={ "Positiivisia " + this.pos( this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1) + " %"}/>
           </div>
-      )
+        )
+      }
     }
   
     return (
