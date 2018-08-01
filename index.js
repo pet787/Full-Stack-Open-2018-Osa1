@@ -1,71 +1,48 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Otsikko = (props) => {
-  return ( 
-    <div>
-      <h1>{props.k}</h1>
-    </div> 
-  )
-}
-
-const Osa = (probs) => {
-  const osa = probs.osa
-  return ( 
-    <div>
-      <p>{osa.nimi} {osa.tehtavia}</p>
-    </div> 
-  )
-}
-
-const Sisalto = (probs) => {
-  const osat = probs.osat
-  return ( 
-    <div>
-      <Osa osa={osat[0]} />
-      <Osa osa={osat[1]} />
-      <Osa osa={osat[2]} />
-    </div> 
-  )
-}
-
-const Yhteensa = (probs) => {
-  const osat = probs.osat
-  let y = 0
-  osat.forEach( (i) => { y = y + i.tehtavia })
-  return ( 
-    <div>
-      <p>Yhteensä {y} tehtävää</p>
-    </div> 
-  )
-}
-
-const App = () => {
-  const kurssi = {
-    nimi: 'Half Stack -sovelluskehitys',
-    osat: [
-      {
-        nimi: 'Reactin perusteet',
-        tehtavia: 10
-      },
-      {
-        nimi: 'Tiedonvälitys propseilla',
-        tehtavia: 7
-      },
-      {
-        nimi: 'Komponenttien tila',
-        tehtavia: 14
-      }
-    ]
+class App extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      hyva: 0,
+      neutraali : 0,
+      huono :0 
+    }
   }
+  
+  render() {
+    const painallus = (arvo) => () => { 
+      switch(arvo) {
+        case "hyva":
+          this.setState({ hyva: this.state.hyva + 1 })
+        break;
+        case "neutraali":
+          this.setState({ neutraali: this.state.neutraali + 1 })
+        break;
+        case "huono":
+          this.setState({ huono: this.state.huono + 1 })
+        break;
+        default:
+      }
+    }
+  
+    return (
+      <div>
+        <h1>Anna palautetta</h1>
+        <button onClick={painallus("hyva")}>Hyvä</button>
+        <button onClick={painallus("neutraali")}>Neutraali</button>
+        <button onClick={painallus("huono")}>Huono</button>
+        <h1>Statistiikka</h1>
+        Hyvä {this.state.hyva}<br />
+        Neutraali {this.state.neutraali}<br />
+        Huono {this.state.huono}<br />
+      </div>
+    )
+  }
+} 
 
-  return (
-    <div>
-      <Otsikko k={kurssi.nimi} />
-      <Sisalto osat={kurssi.osat} />
-      <Yhteensa osat={kurssi.osat} />
-    </div> 
-  )
-}
-
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+)
