@@ -20,7 +20,6 @@ const Osa = (probs) => {
 
 const Sisalto = (probs) => {
   const osat = probs.osat
-  console.log(osat)
   return ( 
     <div>
       <Osa osa={osat[0]} />
@@ -42,27 +41,29 @@ const Yhteensa = (probs) => {
 }
 
 const App = () => {
-  const kurssi = 'Half Stack -sovelluskehitys'
-  const osat = [
-    {
-      nimi: 'Reactin perusteet',
-      tehtavia: 10
-    },
-    {
-      nimi: 'Tiedonvälitys propseilla',
-      tehtavia: 7
-    },
-    {
-      nimi: 'Komponenttien tila',
-      tehtavia: 14
-    }
-  ]
-  console.log(osat)
+  const kurssi = {
+    nimi: 'Half Stack -sovelluskehitys',
+    osat: [
+      {
+        nimi: 'Reactin perusteet',
+        tehtavia: 10
+      },
+      {
+        nimi: 'Tiedonvälitys propseilla',
+        tehtavia: 7
+      },
+      {
+        nimi: 'Komponenttien tila',
+        tehtavia: 14
+      }
+    ]
+  }
+
   return (
     <div>
-      <Otsikko k={kurssi} />
-      <Sisalto osat={osat} />
-      <Yhteensa osat={osat} />
+      <Otsikko k={kurssi.nimi} />
+      <Sisalto osat={kurssi.osat} />
+      <Yhteensa osat={kurssi.osat} />
     </div> 
   )
 }
