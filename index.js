@@ -27,34 +27,61 @@ class App extends React.Component {
     return 100 * args[0] / this.sum(args);
   }
 
+  asetaArvo = (kentta,arvo) => {
+    return () => {
+      this.setState({ [kentta]: arvo })
+    }
+  }
+
   render() {
-    const painallus = (arvo) => () => { 
-      switch(arvo) {
-        case "hyva":
-          this.setState({ hyva: this.state.hyva + 1 })
-        break;
-        case "neutraali":
-          this.setState({ neutraali: this.state.neutraali + 1 })
-        break;
-        case "huono":
-          this.setState({ huono: this.state.huono + 1 })
-        break;
-        default:
-      }
+    const Button = ({ handleClick, text }) => (
+      <button onClick={handleClick}>
+        {text}
+      </button>
+    )
+
+    const Statistic = ({text}) => {
+      return(
+        <div>
+          {text}<br />
+        </div>
+      )
+    } 
+
+    const Statistics  = () => {
+        return(
+          <div>
+            <h1>Statistiikka</h1>
+            <Statistic 
+              text={ "Hyvä " + this.state.hyva}/>
+            <Statistic 
+              text={ "Neutraali " + this.state.neutraali}/>
+            <Statistic 
+              text={ "Huono " + this.state.huono}/>
+            <Statistic 
+              text={ "Keskiarvo " + this.avr(this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1)}/>
+            <Statistic 
+              text={ "Positiivisia " + this.pos( this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1) + " %"}/>
+          </div>
+      )
     }
   
     return (
       <div>
         <h1>Anna palautetta</h1>
-        <button onClick={painallus("hyva")}>Hyvä</button>
-        <button onClick={painallus("neutraali")}>Neuraali</button>
-        <button onClick={painallus("huono")}>Huono</button>
-        <h1>Statistiikka</h1>
-        Hyvä {this.state.hyva}<br />
-        Neutraali {this.state.neutraali}<br />
-        Huono {this.state.huono}<br />
-        Keskiarvo {this.avr(this.state.hyva, this.state.neutraali, this.state.huono)}<br />
-        Positiivisia {this.pos( this.state.hyva, this.state.neutraali, this.state.huono)} %<br />
+        <Button
+          handleClick={this.asetaArvo("hyva",this.state.hyva+1)}
+          text="Hyvä"
+        />
+        <Button
+          handleClick={this.asetaArvo("neutraali",this.state.neutraali+1)}
+          text="Neutraali"
+        />
+        <Button
+          handleClick={this.asetaArvo("huono",this.state.huono+1)}
+          text="Huono"
+        />
+        <Statistics />
       </div>
     )
   }
