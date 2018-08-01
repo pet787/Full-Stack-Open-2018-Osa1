@@ -9,51 +9,60 @@ const Otsikko = (props) => {
   )
 }
 
-const Osa = (props) => {
+const Osa = (probs) => {
+  const osa = probs.osa
   return ( 
     <div>
-      <p>{props.o} {props.t}</p>
+      <p>{osa.nimi} {osa.tehtavia}</p>
     </div> 
   )
 }
 
-const Sisalto = (props) => {
+const Sisalto = (probs) => {
+  const osat = probs.osat
+  console.log(osat)
   return ( 
     <div>
-      <Osa o={props.o1} t={props.t1} />
-      <Osa o={props.o2} t={props.t2} />
-      <Osa o={props.o3} t={props.t3} />
+      <Osa osa={osat[0]} />
+      <Osa osa={osat[1]} />
+      <Osa osa={osat[2]} />
     </div> 
   )
 }
 
-const Yhteensa = (props) => {
+const Yhteensa = (probs) => {
+  const osat = probs.osat
+  let y = 0
+  osat.forEach( (i) => { y = y + i.tehtavia })
   return ( 
     <div>
-      <p>Yhteensä {props.t} tehtävää</p>
+      <p>Yhteensä {y} tehtävää</p>
     </div> 
   )
 }
 
 const App = () => {
   const kurssi = 'Half Stack -sovelluskehitys'
-  const osa1 = {
-    nimi: 'Reactin perusteet',
-    tehtavia: 10
-  }
-  const osa2 = {
-    nimi: 'Tiedonvälitys propseilla',
-    tehtavia: 7
-  }
-  const osa3 = {
-    nimi: 'Komponenttien tila',
-    tehtavia: 14
-  }
+  const osat = [
+    {
+      nimi: 'Reactin perusteet',
+      tehtavia: 10
+    },
+    {
+      nimi: 'Tiedonvälitys propseilla',
+      tehtavia: 7
+    },
+    {
+      nimi: 'Komponenttien tila',
+      tehtavia: 14
+    }
+  ]
+  console.log(osat)
   return (
     <div>
       <Otsikko k={kurssi} />
-      <Sisalto o1={osa1.nimi} t1={osa1.tehtavia} o2={osa2.nimi} t2={osa2.tehtavia} o3={osa3.nimi} t3={osa3.tehtavia} />
-      <Yhteensa t={osa1.tehtavia + osa2.tehtavia + osa3.tehtavia} />
+      <Sisalto osat={osat} />
+      <Yhteensa osat={osat} />
     </div> 
   )
 }
