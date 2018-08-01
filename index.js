@@ -9,7 +9,8 @@ class App extends React.Component {
       neutraali : 0,
       huono :0 
     }
-  }
+  } 
+  
   
   sum = (args) => {
     let t = 0;
