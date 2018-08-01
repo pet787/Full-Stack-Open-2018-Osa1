@@ -6,6 +6,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       selected: Math.floor( Math.random() * 6 ),
+      mostVotes : 0,
+      mostCount : 0,
       votes: [0,0,0,0,0,0]
     }
   }
@@ -19,9 +21,20 @@ class App extends React.Component {
   }
 
   vote = (selected) => {
-    const kopio = {...this.state.votes}
+    const kopio = Object.values(this.state.votes);
     kopio[selected] += 1;  
+    let mostCount = 0;
+    let mostVotes = 0;
+    console.log(kopio)
+    for (let i = 0; i < kopio.length; i++) {
+      if ( kopio[i] >= mostCount ) {
+        mostCount = kopio[i];
+        mostVotes = i;  
+      }
+    }
     return () => {
+      this.setState({ mostCount: mostCount })
+      this.setState({ mostVotes: mostVotes })
       this.setState({ votes: kopio })
     }
   }
@@ -32,7 +45,8 @@ class App extends React.Component {
         {text}
       </button>
     )
-      return (
+
+    return (
       <div>
         {this.props.anecdotes[this.state.selected]}<br />
         has {this.state.votes[this.state.selected]} votes<br />
@@ -44,6 +58,9 @@ class App extends React.Component {
           handleClick={this.asetaArvo()}
           text="Next anecdote"
         />
+        <h1>anecdote with most votes</h1>
+        {this.props.anecdotes[this.state.mostVotes]}<br />
+        has {this.state.mostCount} votes<br />
       </div>
     )
   }
