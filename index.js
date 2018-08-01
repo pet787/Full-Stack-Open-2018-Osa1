@@ -2,115 +2,48 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 class App extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      hyva: 0,
-      neutraali : 0,
-      huono :0 
+      selected: Math.floor( Math.random() * 6 )
     }
   }
-  
-  sum = (args) => {
-    let t = 0;
-    for (var i of args ) {
-      t += i;
-    }
-    return t;
-  }
 
-  zero = (...args) => {
-    let r = true;
-    for (var i of args ) {
-      r = r && ( i === 0);
-    }
-    return r;
-  }
-
-  avr = (...args) => {
-    return ( args[0] - args[2] ) / args.length;
-  }
-
-  pos = (...args) => {
-    return 100 * args[0] / this.sum(args);
-  }
-
-  asetaArvo = (kentta,arvo) => {
+  asetaArvo = (kentta) => {
+    const r = Math.floor( Math.random() * 6 );
     return () => {
-      this.setState({ [kentta]: arvo })
+      this.setState({ selected: r })
     }
   }
-
-  render() {
+    render() {
     const Button = ({ handleClick, text }) => (
       <button onClick={handleClick}>
         {text}
       </button>
     )
-
-    const Statistic = ({text1, text2}) => {
-      return(
-        <tr><td>{text1}</td><td>{text2}</td></tr>
-      )
-    } 
-
-    const Statistics  = () => {
-        if ( this.zero(this.state.hyva,this.state.neutraali,this.state.huono) ) {
-          return (         
-            <div>
-              <h1>Statistiikka</h1>
-              <h2>Ei yhtään palautetta annettu</h2>
-            </div>
-            )
-        }
-        else {
-        return(
-          <div>
-            <h1>Statistiikka</h1>
-            <table><tbody>
-            <Statistic 
-              text1={ "Hyvä" }
-              text2={ this.state.hyva}/>
-            <Statistic 
-              text1={ "Neutraali"}
-              text2={ this.state.neutraali}/>
-            <Statistic 
-              text1={ "Huono"}
-              text2={ this.state.huono}/>
-            <Statistic 
-              text1={ "Keskiarvo"}
-              text2={ this.avr(this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1)}/>
-            <Statistic 
-              text1={ "Positiivisia"}
-              text2={ this.pos( this.state.hyva, this.state.neutraali, this.state.huono).toFixed(1) + " %"}/>
-            </tbody></table>
-          </div>
-        )
-      }
-    }
-  
-    return (
+      return (
       <div>
-        <h1>Anna palautetta</h1>
+        {this.props.anecdotes[this.state.selected]}<br />
         <Button
-          handleClick={this.asetaArvo("hyva",this.state.hyva+1)}
-          text="Hyvä"
+          handleClick={this.asetaArvo()}
+          text="Next anecdote"
         />
-        <Button
-          handleClick={this.asetaArvo("neutraali",this.state.neutraali+1)}
-          text="Neutraali"
-        />
-        <Button
-          handleClick={this.asetaArvo("huono",this.state.huono+1)}
-          text="Huono"
-        />
-        <Statistics />
       </div>
     )
   }
-} 
+}
+
+const anecdotes = [
+  'If it hurts, do it more often',
+  'Adding manpower to a late software project makes it later!',
+  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+  'Premature optimization is the root of all evil.',
+  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
+]
+
 
 ReactDOM.render(
-  <App />,
+  <App anecdotes={anecdotes} />,
   document.getElementById('root')
 )
